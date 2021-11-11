@@ -7,7 +7,6 @@ import axios from "axios";
 export default class EditExercise extends Component {
     constructor(props){
         super(props);
-        console.log(this.props);
 
         this.onChangeUser = this.onChangeUser.bind(this);
         this.onChangeDesc = this.onChangeDesc.bind(this);
@@ -16,6 +15,7 @@ export default class EditExercise extends Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
+            id: window.location.pathname.split("t/")[1],
             username: "",
             description: "",
             duration: 0,
@@ -24,8 +24,7 @@ export default class EditExercise extends Component {
         }
     }
     componentDidMount(){
-        console.log(this.props);
-        axios.get("http://localhost:5000/exercises/" + this.props.match.params.id)
+        axios.get("http://localhost:5000/exercises/"+this.state.id)
             .then(response=> {
                 this.setState({
                     username: response.data.username,
@@ -69,7 +68,7 @@ export default class EditExercise extends Component {
         };
 
         console.log(exercise);
-        axios.post("http://localhost:5000/exercises/update/"+this.props.match.params.id, exercise)
+        axios.post("http://localhost:5000/exercises/update/"+this.state.id, exercise)
             .then(res=> console.log(res.data));
 
         window.location = "/"
